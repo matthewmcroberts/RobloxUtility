@@ -1,0 +1,51 @@
+-- TODO: LEFT AND RIGHT ARROWS DEPENDING ON OUT STATE
+-- Ex) local LEFT_ARROW = "rbxassetid://LEFT_ID"
+--     local RIGHT_ARROW = "rbxassetid://RIGHT_ID"
+-- Then just change ImageButton.Image
+
+local TweenService = game:GetService("TweenService")
+
+-- UI Objects
+local Frame = script.Parent
+local ImageButton = Frame:WaitForChild("ImageButton")
+
+-- State
+local Out = true
+
+-- Tween Settings
+local tweenInfo = TweenInfo.new(
+	0.2,
+	Enum.EasingStyle.Linear,
+	Enum.EasingDirection.InOut
+)
+
+-- Positions
+-- Frame anchored on RIGHT side (1, 0.5)
+
+-- Visible (slides into screen)
+local frameInProps = {
+	Position = UDim2.new(1, 0, 0.55, 0)
+}
+
+-- Hidden (slides off screen)
+local frameOutProps = {
+	Position = UDim2.new(1.2, 0, 0.55, 0)
+}
+
+-- Tweens
+local FrameIn = TweenService:Create(Frame, tweenInfo, frameInProps)
+local FrameOut = TweenService:Create(Frame, tweenInfo, frameOutProps)
+
+-- Toggle Function
+local function toggleFrame()
+	if Out then
+		FrameIn:Play()
+	else
+		FrameOut:Play()
+	end
+
+	Out = not Out
+end
+
+-- Button Click
+ImageButton.MouseButton1Click:Connect(toggleFrame)
